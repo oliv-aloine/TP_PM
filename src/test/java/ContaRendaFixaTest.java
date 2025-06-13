@@ -18,7 +18,7 @@ public class ContaRendaFixaTest {
         cliente = new Cliente("JohnDarkSouls", "1234567", "senhaboa");
         conta = new ContaRendaFixa(cliente);
 
-        // Substitui Random da conta por um fixo que retorna sempre 0.5 para resultados previsíveis
+        // random fixo
         Field randomField = ContaRendaFixa.class.getDeclaredField("random");
         randomField.setAccessible(true);
         randomField.set(conta, new RandomFixo());
@@ -28,9 +28,8 @@ public class ContaRendaFixaTest {
     public void testDepositoAplicaRendimentoETarifa() {
         conta.depositar(1000);
 
-        // rendimento: 0.005 + (0.0035 * 0.5) = 0.00675
-        double rendimento = 1000 * 0.00675; // = 6.75
-        double saldoEsperado = 1000 + rendimento - 20; // = 986.75
+        double rendimento = 1000 * 0.00675;
+        double saldoEsperado = 1000 + rendimento - 20;
 
         assertEquals(986.75, conta.consultarSaldo(), 0.0001);
 
@@ -46,7 +45,7 @@ public class ContaRendaFixaTest {
         conta.depositar(1000); // saldo final será 986.75 após rendimento e tarifa
         conta.sacar(800); // imposto = 120, total = 920
 
-        double saldoEsperado = 986.75 - (800 + 800 * 0.15); // 986.75 - 920 = 66.75
+        double saldoEsperado = 986.75 - (800 + 800 * 0.15);
         assertEquals(66.75, conta.consultarSaldo(), 0.0001);
 
         List<String> extrato = conta.consultarExtrato();
@@ -57,8 +56,8 @@ public class ContaRendaFixaTest {
 
     @Test
     public void testSaqueComSaldoInsuficiente() {
-        conta.depositar(100); // rendimento = 0.675, saldo = 100.675 - 20 = 80.675
-        conta.sacar(100); // saque + imposto = 115 > 80.675 → não deve sacar
+        conta.depositar(100);
+        conta.sacar(100);
 
         assertEquals(80.675, conta.consultarSaldo(), 0.0001);
 
@@ -66,7 +65,7 @@ public class ContaRendaFixaTest {
         assertEquals(3, extrato.size()); // Depósito, Rendimento, Tarifa
     }
 
-    // Random fixo para testes
+    // Random fixo
     static class RandomFixo extends Random {
         @Override
         public double nextDouble() {

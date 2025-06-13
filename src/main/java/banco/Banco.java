@@ -69,22 +69,6 @@ public class Banco {
         return totalSaldo / totalContas;
     }
 
-    public int contarClientesComSaldoNegativo() {
-        int contador = 0;
-        for (Cliente cliente : clientes) {
-            double saldoTotal = 0;
-            for (Conta conta : contas) {
-                if (conta.getCliente().equals(cliente)) {
-                    saldoTotal += conta.consultarSaldo();
-                }
-            }
-            if (saldoTotal < 0) {
-                contador++;
-            }
-        }
-        return contador;
-    }
-
     public Cliente encontrarClienteComMaiorSaldo() {
         Cliente clienteMaiorSaldo = null;
         double maiorSaldo = Double.NEGATIVE_INFINITY;
@@ -123,17 +107,5 @@ public class Banco {
             }
         }
         return clienteMenorSaldo;
-    }
-
-    public Map<String, Double> calcularCustodiaPorTipo() {
-        Map<String, Double> custodiaPorTipo = new HashMap<>();
-
-        for (Conta conta : contas) {
-            String tipo = conta.getClass().getSimpleName();
-            double saldo = conta.consultarSaldo();
-
-            custodiaPorTipo.put(tipo, custodiaPorTipo.getOrDefault(tipo, 0.0) + saldo);
-        }
-        return custodiaPorTipo;
     }
 }
