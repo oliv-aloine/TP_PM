@@ -7,7 +7,6 @@ import java.util.Random;
 public class ContaRendaFixa implements Conta {
     private Cliente cliente;
     private double saldo;
-    private double rendimentoContratado;
     private List<String> extrato;
     private static final TipoConta tipo = TipoConta.RENDA_FIXA;
     private static final double IMPOSTO_SAQUE = 0.15;
